@@ -1,3 +1,5 @@
+package gravity;
+
 import javax.swing.SwingUtilities;
 //test 2
 

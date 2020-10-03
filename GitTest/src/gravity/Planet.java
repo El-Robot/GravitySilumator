@@ -1,3 +1,4 @@
+package gravity;
 
 public class Planet {
 
@@ -6,7 +7,7 @@ public class Planet {
 	private long mass;
 	private double xVel = 0;
 	private double yVel = 0;
-	public final double G = 1;
+	public static final double G = 1; //0.0000000000667 * 10000000;
 
 	public double getX() {
 		return x;

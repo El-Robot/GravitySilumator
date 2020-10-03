@@ -1,3 +1,4 @@
+package gravity;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,7 +15,7 @@ public class MainFrame extends JFrame {
 
 		setLayout(new BorderLayout());
 		setLocation(100, 100);
-		setResizable(false);
+		//setResizable(false);
 
 		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

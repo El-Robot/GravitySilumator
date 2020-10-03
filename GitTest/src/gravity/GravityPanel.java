@@ -1,3 +1,5 @@
+package gravity;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -6,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -22,20 +23,19 @@ public class GravityPanel extends JPanel implements ActionListener {
 		timer = new Timer(delay, this);
 		timer.start();
 
-		//Dual Orbiting
+		// Dual Orbiting
 		planets.add(new Planet(200, 200, 5, .1));
 		planets.add(new Planet(200, 300, 5, -.1));
-		
-		//Orbiting
-		//planets.add(new Planet(300, 200, 300000, 1.5));
-		//planets.add(new Planet(300, 300, 300000000, 0));
-		
-		
-		addMouseListener(new MouseAdapter() { 
-	          public void mousePressed(MouseEvent me) { 
-	            planets.add(new Planet(me.getX(), me.getY(),5,0)); 
-	          } 
-	        }); 
+
+		// Orbiting
+		// planets.add(new Planet(300, 200, 300000, 1.5));
+		// planets.add(new Planet(300, 300, 300000000, 0));
+
+		addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent me) {
+				planets.add(new Planet(me.getX(), me.getY(), 5, 0));
+			}
+		});
 
 	}
 
@@ -54,7 +54,6 @@ public class GravityPanel extends JPanel implements ActionListener {
 
 		g.dispose();
 	}
-
 
 	public void actionPerformed(ActionEvent e) {
 

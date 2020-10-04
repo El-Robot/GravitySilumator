@@ -1,26 +1,45 @@
 package gravity;
 import java.awt.BorderLayout;
 import java.awt.Color;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
-import javax.swing.Action;
 import java.awt.event.ActionListener;
+
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileFilter;
 
 public class MainFrame extends JFrame {
 
 	private GravityPanel gravityPanel;
 	private ControlPanel2 controlPanel;
+	private JFileChooser fileChooser;
+	
 	
 	public MainFrame() {
 		super("Gravity is Fun");
 
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		getContentPane().setLayout(new BorderLayout());
 		setLocation(100, 100);
 		//setResizable(false);
@@ -39,6 +58,8 @@ public class MainFrame extends JFrame {
 		getContentPane().add(gravityPanel, BorderLayout.CENTER);
 		getContentPane().add(controlPanel, BorderLayout.EAST);
 		
+		
+		//////////////////////////////// INFORMATION LISTENER /////////////////////////////////
 		controlPanel.setInfoListener(new InformationListener() {
 
 			public void informationEventOccured(InformationEvent e) {
@@ -46,18 +67,22 @@ public class MainFrame extends JFrame {
 				gravityPanel.setMass(e.getMass());
 				gravityPanel.setxVel(e.getxV());
 				gravityPanel.setyVel(e.getyV());
+				gravityPanel.setShape(e.getShape());
 				
 				
 			}
 			
 		});
 		
-		// menu bar
+		//////////////////////////////// MENU BAR /////////////////////////////////////////////
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		JMenu mnOptions = new JMenu("Options");
 		menuBar.add(mnOptions);
+		
+		fileChooser = new JFileChooser();
+		fileChooser.addChoosableFileFilter(new PersonFileFilter());
 		
 		JCheckBoxMenuItem chckbxmntmShowOptions = new JCheckBoxMenuItem("Show options");
 		chckbxmntmShowOptions.addActionListener(new ActionListener() {
@@ -85,10 +110,20 @@ public class MainFrame extends JFrame {
 		});
 		mnSaveSystem.add(mntmSaveCurrentSystem);
 		
-		JMenuItem mntmLoadSystem = new JMenuItem("Load System");
+		JMenuItem mntmLoadSystem = new JMenuItem("Load System"); //loads a txt file into the board
+		mntmLoadSystem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+					System.out.println(fileChooser.getSelectedFile());
+					
+					gravityPanel.setPlanets(FileConverter.fileToSystem(fileChooser.getSelectedFile()));
+					
+				}
+			}
+		});
 		mnSaveSystem.add(mntmLoadSystem);
 		
-		JMenuItem mntmPause = new JMenuItem("Pause");
+		JMenuItem mntmPause = new JMenuItem("Pause"); //PAUSE BUTTON
 		mntmPause.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				gravityPanel.toggleOn();

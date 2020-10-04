@@ -21,6 +21,7 @@ public class GravityPanel extends JPanel implements ActionListener {
 	private double mass = 5;
 	private double xVel = 0;
 	private double yVel = 0;
+	private String shape = "circle";
 
 	public GravityPanel() {
 
@@ -53,11 +54,16 @@ public class GravityPanel extends JPanel implements ActionListener {
 
 		// loop through planets
 		for (Planet p : planets) {
-			g.fillRect((int) p.getX(), (int) p.getY(), 20, 20);
+			if (shape.equals("circle"))
+				g.fillOval((int) p.getX(), (int) p.getY(), 20, 20);
+			else
+				g.fillRect((int) p.getX(), (int) p.getY(), 20, 20);
 		}
 
 		g.dispose();
 	}
+
+	
 
 	public void actionPerformed(ActionEvent e) {
 
@@ -135,6 +141,14 @@ public class GravityPanel extends JPanel implements ActionListener {
 
 	public void setyVel(double yVel) {
 		this.yVel = yVel;
+	}
+	
+	public String getShape() {
+		return shape;
+	}
+
+	public void setShape(String shape) {
+		this.shape = shape;
 	}
 	
 }

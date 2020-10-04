@@ -20,6 +20,13 @@ import com.jgoodies.forms.factories.DefaultComponentFactory;
 public class ControlPanel2 extends JPanel {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private InformationListener infoListener;
+	private JFormattedTextField massTF;
+	private JLabel xVelLbl;
+	private JFormattedTextField xVelTF;
+	private JFormattedTextField yVelTF;
+	private JRadioButton circleOpt;
+	private JRadioButton squareOpt;
+	private JButton clear;
 	/**
 	 * Create the panel.
 	 */
@@ -46,7 +53,21 @@ public class ControlPanel2 extends JPanel {
 		gbc_massLbl.gridy = 1;
 		numbersPanel.add(massLbl, gbc_massLbl);
 
-		JFormattedTextField massTF = new JFormattedTextField();
+		massTF = new JFormattedTextField();
+		massTF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double mass = Double.parseDouble(massTF.getText());
+				double xV = Double.parseDouble(xVelTF.getText());
+				double yV = Double.parseDouble(yVelTF.getText());
+				String shape = circleOpt.isSelected() ? "circle" : "square";
+
+				InformationEvent info = new InformationEvent(this, mass, xV, yV, shape);
+
+				if (infoListener != null) {
+					infoListener.informationEventOccured(info);
+				}
+			}
+		});
 		GridBagConstraints gbc_massTF = new GridBagConstraints();
 		gbc_massTF.insets = new Insets(0, 0, 5, 0);
 		gbc_massTF.gridx = 2;
@@ -55,14 +76,14 @@ public class ControlPanel2 extends JPanel {
 		massTF.setColumns(7);
 		massTF.setText("10");
 
-		JLabel xVelLbl = DefaultComponentFactory.getInstance().createLabel("X Velocity: ");
+		xVelLbl = DefaultComponentFactory.getInstance().createLabel("X Velocity: ");
 		GridBagConstraints gbc_xVelLbl = new GridBagConstraints();
 		gbc_xVelLbl.insets = new Insets(0, 0, 5, 5);
 		gbc_xVelLbl.gridx = 1;
 		gbc_xVelLbl.gridy = 2;
 		numbersPanel.add(xVelLbl, gbc_xVelLbl);
 
-		JFormattedTextField xVelTF = new JFormattedTextField();
+		xVelTF = new JFormattedTextField();
 		GridBagConstraints gbc_xVelTF = new GridBagConstraints();
 		gbc_xVelTF.insets = new Insets(0, 0, 5, 0);
 		gbc_xVelTF.gridx = 2;
@@ -78,7 +99,7 @@ public class ControlPanel2 extends JPanel {
 		gbc_yVelLbl.gridy = 3;
 		numbersPanel.add(yVelLbl, gbc_yVelLbl);
 
-		JFormattedTextField yVelTF = new JFormattedTextField();
+		yVelTF = new JFormattedTextField();
 		GridBagConstraints gbc_yVelTF = new GridBagConstraints();
 		gbc_yVelTF.insets = new Insets(0, 0, 5, 0);
 		gbc_yVelTF.gridx = 2;
@@ -87,7 +108,7 @@ public class ControlPanel2 extends JPanel {
 		yVelTF.setColumns(7);
 		yVelTF.setText("0");
 
-		JRadioButton circleOpt = new JRadioButton("Circle");
+		circleOpt = new JRadioButton("Circle");
 		buttonGroup.add(circleOpt);
 		circleOpt.setSelected(true);
 		GridBagConstraints gbc_circleOpt = new GridBagConstraints();
@@ -96,7 +117,7 @@ public class ControlPanel2 extends JPanel {
 		gbc_circleOpt.gridy = 4;
 		numbersPanel.add(circleOpt, gbc_circleOpt);
 
-		JRadioButton squareOpt = new JRadioButton("Square");
+		squareOpt = new JRadioButton("Square");
 		buttonGroup.add(squareOpt);
 		GridBagConstraints gbc_squareOpt = new GridBagConstraints();
 		gbc_squareOpt.insets = new Insets(0, 0, 5, 0);
@@ -104,16 +125,21 @@ public class ControlPanel2 extends JPanel {
 		gbc_squareOpt.gridy = 4;
 		numbersPanel.add(squareOpt, gbc_squareOpt);
 
-		JButton clear = new JButton("Clear Planets");
+		clear = new JButton("Clear Planets");
 		clear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent ev) {
+				InformationEvent info = null;
+				try {
 				double mass = Double.parseDouble(massTF.getText());
 				double xV = Double.parseDouble(xVelTF.getText());
 				double yV = Double.parseDouble(yVelTF.getText());
 				String shape = circleOpt.isSelected() ? "circle" : "square";
 
-				InformationEvent info = new InformationEvent(this, mass, xV, yV, shape);
+				info = new InformationEvent(this, mass, xV, yV, shape);
 
+				} catch(Exception ex) {
+					System.out.println("Error with number");
+				}
 				if (infoListener != null) {
 					infoListener.informationEventOccured(info);
 				}

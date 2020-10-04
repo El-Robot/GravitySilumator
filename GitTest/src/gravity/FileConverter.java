@@ -20,6 +20,7 @@ public class FileConverter {
 						Double.parseDouble(dataArr[2]), Double.parseDouble(dataArr[3]),
 						Double.parseDouble(dataArr[4])));
 			}
+			reader.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -27,5 +28,14 @@ public class FileConverter {
 
 		return result;
 	}
+	
+//	public static void saveSystemAsFile(File dir, ArrayList<Planet> planets) {
+//		
+//		File file = new File(dir + "\");
+//		OutputStream out = new FileOutputStream(file);
+//		// Write your data
+//		out.close();
+//		
+//	}
 
 }

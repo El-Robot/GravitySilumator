@@ -4,10 +4,10 @@ public class Planet {
 
 	private double x;
 	private double y;
-	private long mass;
+	private double mass;
 	private double xVel = 0;
 	private double yVel = 0;
-	public static final double G = 1; //0.0000000000667 * 10000000;
+	public static final double G = 0.1; //0.0000000000667 * 10000000;
 
 	public double getX() {
 		return x;
@@ -25,11 +25,12 @@ public class Planet {
 		this.y = y;
 	}
 
-	public Planet(int x, int y, long m, double v) {
+	public Planet(int x, int y, double m, double vx, double vy) {
 
 		this.x = x;
 		this.y = y;
-		this.xVel = v;
+		this.xVel = vx;
+		this.yVel = vy;
 		mass = m;
 
 	}

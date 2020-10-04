@@ -16,7 +16,11 @@ public class GravityPanel extends JPanel implements ActionListener {
 	ArrayList<Planet> planets = new ArrayList<Planet>();
 	private Timer timer;
 	private int delay = 1;
-	int x = 0;
+	boolean paused = false;
+	
+	private double mass = 5;
+	private double xVel = 0;
+	private double yVel = 0;
 
 	public GravityPanel() {
 
@@ -24,16 +28,16 @@ public class GravityPanel extends JPanel implements ActionListener {
 		timer.start();
 
 		// Dual Orbiting
-		planets.add(new Planet(200, 200, 5, .1));
-		planets.add(new Planet(200, 300, 5, -.1));
+		// planets.add(new Planet(200, 200, 5, .1, 0));
+		// planets.add(new Planet(200, 300, 5, -.1, 0));
 
 		// Orbiting
-		// planets.add(new Planet(300, 200, 300000, 1.5));
-		// planets.add(new Planet(300, 300, 300000000, 0));
+		// planets.add(new Planet(300, 200, 1, 0.3, 0));
+		// planets.add(new Planet(300, 300, 100, -0.003, 0));
 
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
-				planets.add(new Planet(me.getX(), me.getY(), 5, 0));
+				planets.add(new Planet(me.getX(), me.getY(), mass, xVel, yVel));
 			}
 		});
 
@@ -49,7 +53,7 @@ public class GravityPanel extends JPanel implements ActionListener {
 
 		// loop through planets
 		for (Planet p : planets) {
-			g.fillOval((int) p.getX(), (int) p.getY(), 20, 20);
+			g.fillRect((int) p.getX(), (int) p.getY(), 20, 20);
 		}
 
 		g.dispose();
@@ -59,16 +63,78 @@ public class GravityPanel extends JPanel implements ActionListener {
 
 		timer.start();
 
-		for (Planet p : planets) {
-			for (Planet p2 : planets) {
-				p.updateV(p2);
+		if (!paused) {
+			for (Planet p : planets) {
+				for (Planet p2 : planets) {
+					p.updateV(p2);
+				}
+			}
+
+			for (Planet p : planets) {
+				p.updatePos();
 			}
 		}
-
-		for (Planet p : planets) {
-			p.updatePos();
-		}
-
 		repaint();
 	}
+
+	public void toggleOn() {
+		paused = !paused;
+	}
+
+	public ArrayList<Planet> getPlanets() {
+		return planets;
+	}
+
+	public void setPlanets(ArrayList<Planet> planets) {
+		this.planets = planets;
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public void setTimer(Timer timer) {
+		this.timer = timer;
+	}
+
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+
+	public boolean isPaused() {
+		return paused;
+	}
+
+	public void setPaused(boolean paused) {
+		this.paused = paused;
+	}
+
+	public double getMass() {
+		return mass;
+	}
+
+	public void setMass(double mass) {
+		this.mass = mass;
+	}
+
+	public double getxVel() {
+		return xVel;
+	}
+
+	public void setxVel(double xVel) {
+		this.xVel = xVel;
+	}
+
+	public double getyVel() {
+		return yVel;
+	}
+
+	public void setyVel(double yVel) {
+		this.yVel = yVel;
+	}
+	
 }
